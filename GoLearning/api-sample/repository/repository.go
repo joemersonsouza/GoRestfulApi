@@ -64,7 +64,6 @@ func _initializeDatabase(config *RepositoryConfig) *gorm.DB {
 
 	db, err = gorm.Open(dialect, dbURI)
 
-	fmt.Printf(dbURI)
 	if err != nil {
 		log.Fatal(err)
 		return nil
