@@ -1,10 +1,11 @@
 package services
 
 import (
-	"github.com/jinzhu/gorm"
 	"golearning/api-sample/models"
 	"golearning/api-sample/repository"
 	"testing"
+
+	"github.com/jinzhu/gorm"
 )
 
 type MockRepo struct{}
@@ -31,7 +32,7 @@ func TestCreateItem(t *testing.T) {
 	service.AddItem(request)
 }
 
-func (repo *MockRepo) CreateRepositoryInstance() *gorm.DB {
+func (repo *MockRepo) CreateRepositoryInstance(config *repository.RepositoryConfig) *gorm.DB {
 	return nil
 }
 
@@ -40,9 +41,6 @@ func (repo *MockRepo) GetProducts() []repository.Product {
 	return append(products, productTest)
 }
 
-func newMockRepo() repository.IShopRepository {
-	return new(MockRepo)
-}
 func (repo *MockRepo) CreateProduct(product repository.Product) {
 }
 
@@ -51,4 +49,8 @@ func (repo *MockRepo) UpdateProduct(product repository.Product) {
 
 func (repo *MockRepo) GetProductById(id int) repository.Product {
 	return productTest
+}
+
+func newMockRepo() repository.IShopRepository {
+	return new(MockRepo)
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func (repo *ShopRepository) getDb() *gorm.DB {
-	return repo.CreateRepositoryInstance()
+	return repo.CreateRepositoryInstance(nil)
 }
 
 func (repo *ShopRepository) CreateProduct(product Product) {

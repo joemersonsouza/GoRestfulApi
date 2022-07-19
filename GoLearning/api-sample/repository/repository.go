@@ -3,15 +3,23 @@ package repository
 import (
 	"fmt"
 	"log"
-	"os"
 	"sync"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
+type RepositoryConfig struct {
+	Dialect  string
+	Host     string
+	DBport   string
+	User     string
+	Database string
+	Password string
+}
+
 type IShopRepository interface {
-	CreateRepositoryInstance() *gorm.DB
+	CreateRepositoryInstance(config *RepositoryConfig) *gorm.DB
 	GetProducts() []Product
 	GetProductById(id int) Product
 	UpdateProduct(product Product)
@@ -30,27 +38,27 @@ var (
 	instance *gorm.DB
 )
 
-func (repo *ShopRepository) CreateRepositoryInstance() *gorm.DB {
+func (repo *ShopRepository) CreateRepositoryInstance(config *RepositoryConfig) *gorm.DB {
 
 	once.Do(func() {
 
-		instance = _initializeDatabase()
+		instance = _initializeDatabase(config)
 
 	})
 
 	return instance
 }
 
-func _initializeDatabase() *gorm.DB {
+func _initializeDatabase(config *RepositoryConfig) *gorm.DB {
 	var err error
 	var db *gorm.DB
 
-	dialect := os.Getenv("DIALECT")
-	host := os.Getenv("HOST")
-	dbport := os.Getenv("DBPORT")
-	user := os.Getenv("USER")
-	database := os.Getenv("DATABASE")
-	password := os.Getenv("PASSWORD")
+	dialect := config.Dialect
+	host := config.Host
+	dbport := config.DBport
+	user := config.User
+	database := config.Database
+	password := config.Password
 
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s port=%s", host, user, database, password, dbport)
 

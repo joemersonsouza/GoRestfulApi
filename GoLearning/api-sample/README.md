@@ -33,6 +33,9 @@ go install github.com/swaggo/swag/cmd/swag@latest ´Really important to run the 
 # Initialize or recreate the Swagger file
 swag init
 
+# Initialize Docker with Dependencies
+docker-compose -f docker/docker-compose.dev.yaml up
+
 # Run the API inside of root path (../api-sample)
 go run .
 
